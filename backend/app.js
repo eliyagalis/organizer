@@ -5,8 +5,8 @@ import projectsRouter from "./routes/projectsRouter.js";
 import tasksRouter from "./routes/tasksRouter.js";
 
 const app = express();
-const PORT = process.env.PORT || 6061;
 app.use(express.json());
+const PORT = process.env.PORT || 6061;
 dotenv.config();
 
 // Connect to mongoDB
