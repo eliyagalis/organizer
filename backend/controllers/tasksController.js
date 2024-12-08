@@ -4,25 +4,25 @@ const tasks = {
         name: 'Complete Project Setup',
         description: 'Initialize the project repository and set up initial configurations',
         status: 'In Progress',
-        manager: 'eliya',
         startDate: '2024-12-01',
         priority: 'High',
-        dueDate: '2025-02-15'
+        dueDate: new Date('2025-02-15')
     },
     2: {
         id: 2,
         name: 'Design Database Schema',
         description: 'Create detailed database schema for the project',
         status: 'Pending',
-        manager: 'bob',
         startDate: '2024-12-02',
         priority: 'Medium',
-        dueDate: '2025-02-20'
+        dueDate: new Date('2025-02-20')
     }
 };
 
+let currentId = 0;
+
 const generateId = () => {
-    return Math.max(...Object.keys(tasks).map(Number)) + 1;
+    return ++currentId;
 };
 
 // Get all tasks
@@ -60,9 +60,9 @@ export const createTask = (req, res) => {
         if (!name) {
             return res.status(400).json({ message: 'Task name is required' });
         }
-
+        const id = generateId();
         const newTask = {
-            id: generateId(),
+            id,
             name,
             description: description || '',
             status: status || 'Pending'

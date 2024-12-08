@@ -4,15 +4,18 @@ import dotenv from 'dotenv';
 import projectsRouter from "./routes/projectsRouter.js";
 import tasksRouter from "./routes/tasksRouter.js";
 
-dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 6061;
-// app.use(cors({origin: 'http://localhost:6060'}));
-
 app.use(express.json());
+dotenv.config();
+
+// Connect to mongoDB
+const dbURI = process.env.CONNECTION_STRING;
+
+// app.use(cors({origin: 'http://localhost:6060'}));
 // app.use(cors());
 
+// Routes
 app.use('/api/v1/projects', projectsRouter);
 app.use('/api/v1/tasks', tasksRouter);
 

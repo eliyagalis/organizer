@@ -1,7 +1,9 @@
 import express from 'express';
-import getProjects from '../controllers/projectsController.js';
+import { getProjects } from '../controllers/projectsController.js';
 
 const projectsRouter = express.Router();
-projectsRouter.route('/getProjects').get(getProjects);
+
+projectsRouter.get('/', getProjects);
+
 
 export default projectsRouter

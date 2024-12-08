@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "mongodb": "^6.11.0",
+    "nanoid": "^5.0.9"
   }
 }
