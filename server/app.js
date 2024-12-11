@@ -5,10 +5,11 @@ import projectsRouter from "./routes/projectsRouter.js";
 import tasksRouter from "./routes/tasksRouter.js";
 import mongoose from "mongoose";
 
+dotenv.config();
 const app = express();
 app.use(express.json());
+
 const PORT = process.env.PORT || 6061;
-dotenv.config();
 
 // Connect to mongoDB
 const mongoURI = process.env.CONNECTION_STRING;
