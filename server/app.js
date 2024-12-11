@@ -18,7 +18,7 @@ app.use(cors());
 
 // Routes
 app.use('/api/v1/projects', projectsRouter);
-app.use('/api/v1/projects/:projectId/tasks', tasksRouter);
+app.use('/api/v1/projects', tasksRouter);
 
 mongoose.connect(mongoURI).then(()=> {
     app.listen(PORT, ()=> {

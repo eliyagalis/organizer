@@ -1,18 +1,18 @@
 import express from 'express';
-import { getTasks, getTask, createTask, deleteTask } from '../controllers/tasksController.js';
+import { validateProjectId } from '../middlewares/validateProjectId.js';
+import { getTasks, getTaskById, createTask, updateTask, deleteTask } from '../controllers/tasksController.js';
 
 const tasksRouter = express.Router();
 
-// Route to get all tasks
-tasksRouter.get('/', getTasks);
+tasksRouter
+    .route('/:projectId/tasks')
+    .get(validateProjectId, getTasks)
+    .post(validateProjectId, createTask);
 
-// Route to get a specific task by ID
-tasksRouter.get('/:id', getTask);
-
-// Route to add a task
-tasksRouter.post('/', createTask);
-
-// Route to delete a task
-tasksRouter.delete('/', deleteTask);
+tasksRouter
+    .route('/:projectId/tasks/:taskId')
+    .get(validateProjectId, getTaskById)
+    .put(validateProjectId, updateTask)
+    .delete(validateProjectId, deleteTask);
 
 export default tasksRouter;

@@ -1,121 +1,131 @@
-const tasks = {
-    1: {
-        id: 1,
-        name: 'Complete Project Setup',
-        description: 'Initialize the project repository and set up initial configurations',
-        status: 'In Progress',
-        startDate: '2024-12-01',
-        dueDate: new Date('2025-02-15')
-    },
-    2: {
-        id: 2,
-        name: 'Design Database Schema',
-        description: 'Create detailed database schema for the project',
-        status: 'Pending',
-        startDate: '2024-12-02',
-        dueDate: new Date('2025-02-20')
-    }
-};
+import Task from "../models/Task";
 
-let currentId = 0;
+// Validations
+const validateTaskId = (id)=> {
+    return mongoose.Types.ObjectId.isValid(id);
+}
 
-const generateId = () => {
-    return ++currentId;
-};
+const validateStatus = (status)=> {
+    const validStatuses = ["pending", "in-progress", "completed"];
+    return validStatuses.includes(status);
+}
 
-// Get all tasks
-export const getTasks = (req, res) => {
+export const getTasks = async (req,res)=> {
     try {
-        const taskList = Object.values(tasks);
-        res.json(taskList);
+        const tasks = await Task.find({});
+        return res.status(200).json(tasks);
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching tasks' });
+        console.log("Error in get request", error);
+        res.status(500).json({ "error": "Internal Server Error" });
     }
 };
 
-// Get a single task by ID
-export const getTask = (req, res) => {
+export const getTaskById = async (req,res)=> {
     try {
-        const taskId = parseInt(req.params.id);
-        const task = tasks[taskId];
-        
-        if (task) {
-            res.json(task);
-        } else {
-            res.status(404).json({ message: 'Task not found' });
+        const {id} = req.params;
+
+        if (!validateTaskId(id)) {
+            return res.status(400).json({"error":"Id not valid"});
         }
+
+        const requestedTask = await Task.findById(id);
+
+        if (!requestedTask) {
+            return res.status(404).json({"error": "Task not found"});
+        }
+
+        return res.status(200).json(requestedTask);
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching task' });
+        console.log("Error in get request", error);
+        res.status(500).json({ "error": "Internal Server Error" });
     }
 };
 
-// Add a new task
-export const createTask = (req, res) => {
+export const createTask = async (req,res)=> {
     try {
-        const { name, description, status } = req.body;
+        const {name, status = "pending", ...otherFields} = req.body;
 
-        // Validate input
-        if (!name) {
-            return res.status(400).json({ message: 'Task name is required' });
+        if (!name)  {
+            return res.status(400).json({"error": "Empty required fields"});
         }
-        const id = generateId();
-        const newTask = {
-            id,
+
+
+        if (!validateStatus(status)) {
+            return res.status(400).json({"error": "Status not valid"});
+        }
+
+        const createdTask = new Task({
             name,
-            description: description || '',
-            status: status || 'Pending'
-        };
+            status,
+            ...otherFields
+        });
 
-        tasks[newTask.id] = newTask;
-        res.status(201).json(newTask);
+        await createdTask.save();
+
+        res.status(201).json(createdTask);
+        
     } catch (error) {
-        res.status(500).json({ message: 'Error creating task' });
+        console.log("Error in creating", error);
+        res.status(500).json({ "error": "Internal Server Error" });
     }
 };
 
-// Update a task
-export const updateTask = (req, res) => {
+export const updateTask = async (req, res) => {
     try {
-        const taskId = parseInt(req.params.id, 10);
-        const { name, description, status } = req.body;
+        const { id } = req.params;
+        const { status, name, description } = req.body;
 
-        // Check if task exists
-        const existingTask = tasks[taskId];
-        if (!existingTask) {
-            return res.status(404).json({ message: 'Task not found' });
+        if (!validateTaskId(id)) {
+            return res.status(404).json({"error": "Task not found"})
         }
 
-        // Update task fields (only update fields that are provided)
-        const updatedTask = {
-            id: taskId,
-            name: name || existingTask.name,
-            description: description || existingTask.description,
-            status: status || existingTask.status
-        };
+        if (!validateStatus(status)) {
+            return res.status(400).json({ "error": "Invalid status provided" });
+        }
 
-        // Save the updated task
-        tasks[taskId] = updatedTask;
+        if (!name) {
+            return res.status(400).json({ "error": "Name is required" });
+        }
 
-        res.json(updatedTask);
+        const updateFields = {};
+        if (status) updateFields.status = status;
+        if (name) updateFields.name = name;
+        if (description) updateFields.description = description;
+
+        if (Object.keys(updateFields).length === 0) {
+            return res.status(400).json({ "error": "No valid fields provided for update" });
+        }
+
+        const updatedTask = await Task.findByIdAndUpdate(id, updateFields, { new: true });
+
+        if (!updatedTask) {
+            return res.status(404).json({ "error": "Task not found" });
+        }
+
+        res.status(200).json(updatedTask);
     } catch (error) {
-        res.status(500).json({ message: 'Error updating task' });
+        console.log("Error updating task:", error);
+        res.status(500).json({ "error": "Internal Server Error" });
     }
 };
 
-// Delete a task
-export const deleteTask = (req, res) => {
+export const deleteTask = async (req, res) => {
     try {
-        const taskId = parseInt(req.params.id);
+        const { id } = req.params;
 
-        // Check if task exists
-        if (!tasks[taskId]) {
-            return res.status(404).json({ message: 'Task not found' });
+        if (!validateTaskId(id)) {
+            return res.status(400).json({ "error": "Invalid Task ID" });
         }
 
-        // Delete the task
-        delete tasks[taskId];
-        res.status(200).json({ message: 'Task deleted successfully' });
+        const deletedTask = await Task.findByIdAndDelete(id);
+
+        if (!deletedTask) {
+            return res.status(404).json({ "error": "Task not found" });
+        }
+
+        res.status(200).json({ "message": "Task deleted successfully" });
     } catch (error) {
-        res.status(500).json({ message: 'Error deleting task' });
+        console.log("Error deleting task:", error);
+        res.status(500).json({ "error": "Internal Server Error" });
     }
 };
