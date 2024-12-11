@@ -1,4 +1,4 @@
-import Project from "../models/Project";
+import Project from "../models/Project.js";
 
 export const validateProjectId = (req,res,next)=> {
     const projectId = req.params;

@@ -1,4 +1,4 @@
-import Project from "../models/Project"
+import Project from "../models/Project.js";
 
 export const getProjects = async (req,res)=> {
     try {
@@ -9,8 +9,7 @@ export const getProjects = async (req,res)=> {
         console.log("Error in get request", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-}
-
+};
 export const getProjectById = async (req,res)=> {
     try {
         const { projectId  } = req.params;
@@ -31,8 +30,7 @@ export const getProjectById = async (req,res)=> {
         console.log("Error in get request id", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-}
-
+};
 export const createProject = async (req,res)=> {
     try {
         const { name, ...otherFields } = req.body;
@@ -54,8 +52,7 @@ export const createProject = async (req,res)=> {
         console.log("Error in creating", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-}
-
+};
 export const updateProject = async (req,res)=> {
     try {
         const { id } = req.params;
@@ -71,8 +68,7 @@ export const updateProject = async (req,res)=> {
         console.log("Error in updating", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-}
-
+};
 export const deleteProject = async (req,res)=> {
     try {
         const { id } = req.params.id;
@@ -93,4 +89,4 @@ export const deleteProject = async (req,res)=> {
         console.log("Error in deleting", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};

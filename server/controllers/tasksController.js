@@ -1,15 +1,15 @@
-import Task from "../models/Task";
+import Task from "../models/Task.js";
 
 // Validations
 const validateTaskId = (id)=> {
     return mongoose.Types.ObjectId.isValid(id);
 }
-
 const validateStatus = (status)=> {
     const validStatuses = ["pending", "in-progress", "completed"];
     return validStatuses.includes(status);
 }
 
+// Functions
 export const getTasks = async (req,res)=> {
     try {
         const tasks = await Task.find({});
@@ -19,7 +19,6 @@ export const getTasks = async (req,res)=> {
         res.status(500).json({ "error": "Internal Server Error" });
     }
 };
-
 export const getTaskById = async (req,res)=> {
     try {
         const {id} = req.params;
@@ -40,7 +39,6 @@ export const getTaskById = async (req,res)=> {
         res.status(500).json({ "error": "Internal Server Error" });
     }
 };
-
 export const createTask = async (req,res)=> {
     try {
         const {name, status = "pending", ...otherFields} = req.body;
@@ -69,7 +67,6 @@ export const createTask = async (req,res)=> {
         res.status(500).json({ "error": "Internal Server Error" });
     }
 };
-
 export const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
@@ -108,7 +105,6 @@ export const updateTask = async (req, res) => {
         res.status(500).json({ "error": "Internal Server Error" });
     }
 };
-
 export const deleteTask = async (req, res) => {
     try {
         const { id } = req.params;
