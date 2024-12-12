@@ -1,7 +1,12 @@
-import express from 'express';
-import { createProject, deleteProject, getProjectById, getProjects, updateProject } from '../controllers/projectsController.js';
+import {Router} from 'express';
+import { 
+    createProject, 
+    deleteProject, 
+    getProjectById, 
+    getProjects, 
+    updateProject } from '../controllers/projectsController.js';
 
-const projectsRouter = express.Router();
+const projectsRouter = Router();
 
 projectsRouter
     .route('/')
