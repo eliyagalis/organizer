@@ -1,84 +1,67 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter var,ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
   line-height: 1.5;
-  font-weight: 400;
   /* background-color: hsl(0, 0%, 80%); */
+  background-image: url('./assets/background.png'); /* Relative path */
+  background-size: cover; /* Ensures the image covers the entire area */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Avoid repeating the image */
+
 }
 
-.task-panel{
-  background-color: hsl(0, 0%, 98%);
-  padding:1rem;
-  border-radius: 1rem;
-  width: 95%;
-  margin: auto;
-}
-
-.task-card{
-  padding:1rem;
-  margin: 0.5rem;
-  border-radius: 1rem;
-  width: 15em;
-  background-color: hsl(0, 0%, 99%);
-  border: 1px solid hsl(0, 0%, 80%);
-  box-shadow: 0px 0px 7px hsl(0, 0%, 80%);
-}
-
-.tasks-space {
-  padding: 1rem;
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  border-radius: 1rem;
-}
-
-.grey-space{
-  padding: 0.5rem;
-  display: block;
-  background-color: hsl(0, 0%, 90%);
-  border-radius: 1rem;
-}
-
-.login-container {
-  padding: 2rem;
-  display: inline-flex;
-  border-radius: 1rem;
-  background-color: hsl(0, 0%, 90%);
-  border: 1px solid hsl(0, 0%, 80%);
-  box-shadow: 0px 0px 7px hsl(0, 0%, 80%);
-  margin: 3rem auto;
-}
-
-.center {
-  text-align: center;
-}
-
-.login-form {
+.header {
   display: flex;
+  justify-content:space-between;
+  align-items: center;
+  padding: 1rem 0;
+  gap: 1rem;
+  position: relative;
+  left:0;
+  top:0;
+  width:80%;
+  margin: auto;  
+}
+
+.header-title {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.header-nav {
+  display: flex;
+  font-weight: bold;
+}
+
+.header-nav-link {
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 1rem;
+}
+
+.header-nav-link:hover {
+  background-color: hsla(0, 0%, 95%, 0.4);
+  cursor: pointer;
+}
+
+.home-paragraph {
+  display: flex;
+  justify-content: center;
   flex-direction: column;
-  font-size: 1.2rem;
   margin: auto;
-  color: hsl(0, 0%, 50%);
+  width: 80%;
+  text-align: center;
+  padding: 3rem 0;
 }
 
-.my-input {
-  height: 2rem;
-  font-size: 1.3rem;
-  color: hsl(0, 0%, 70%);
+.home-paragraph-title {
+  font-size: 2rem;
+  font-weight: 300;
 }
 
-.my-button {
-  height: 2rem;
-  margin: 1rem;
-}
-
-.page {
-  display: flex;
-}
-
-.error {
-  color:hsl(0, 100%, 70%);
-}
-
-.success{
-  color: hsl(101, 100%, 70%);
+.home-paragraph-content {
+  font-size: 1.2rem;
 }
