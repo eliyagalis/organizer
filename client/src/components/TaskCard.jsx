@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 
-const TaskCard = () => {
+const TaskCard = ({id,title,description,status}) => {
   
+
     return (
-        <div className='task'>
+        <div className={status + " task"}>
             <div className='task-title'>
-                Product presentation
+                {title}
             </div>
             <div className='task-description'>
-                Make a presentation about organization to present it on Thursday.
+                {description}
             </div>
-            <div className='task-status'>
-                <b>Status:</b>
+            <div className="">
+                <b>Status: {status}</b>
             </div>
             <br/>
             <div className='task-days'>
