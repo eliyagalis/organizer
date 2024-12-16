@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from 'react'
 
-const TaskCard = ({id, description, findTask}) => {
+const TaskCard = () => {
   
     return (
-        <div className='task-card'>
-            <p>{description}</p>
-            <button onClick={()=>findTask(id)}>erase</button>
-        </div>        
+        <div className='task'>
+            <div className='task-title'>
+                Product presentation
+            </div>
+            <div className='task-description'>
+                Make a presentation about organization to present it on Thursday.
+            </div>
+            <div className='task-status'>
+                <b>Status:</b>
+            </div>
+            <br/>
+            <div className='task-days'>
+                2 days ago
+            </div>
+        </div>
   )
 }
 
