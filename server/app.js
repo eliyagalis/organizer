@@ -14,9 +14,9 @@ const PORT = process.env.PORT || 6061;
 app.use(cors({origin: 'http://localhost:6060', credentials: true}));
 const mongoURI = process.env.CONNECTION_STRING;
 
-app.use('/users', usersRouter);
-app.use('/users/:userId/projects', projectsRouter);
-app.use('/users/:userId/projects/:projectId/tasks', tasksRouter);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/users/:userId/projects', projectsRouter);
+app.use('/api/v1/users/:userId/projects/:projectId/tasks', tasksRouter);
 
 mongoose.connect(mongoURI).then(()=> {
     app.listen(PORT, ()=> {

@@ -52,13 +52,14 @@ const Home = () => {
                 </div>
             </div>
             <Link className='button'>Learn more</Link>
-            
-        </div>
-        <div className='big-br'/>
+            <div className='big-br'/>
             <div>
                 <div className='home-card-title bolder'>Practical tools</div>
                 <p className='home-card-content'>Managing projects and tasks has never been easier</p>
             </div>
+        </div>
+        <div className='big-br'/>
+            
         <div className='white-gardient'/>
         <Footer />
     </div>

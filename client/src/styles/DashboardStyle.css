@@ -28,12 +28,6 @@
     font-weight: 900;
     font-size: 1.2rem;
 }
-
-.dashboard-header-items {
-    text-decoration: none;
-    color: inherit;
-    padding: 0.5rem 1rem;
-  }
   
 .btn {
     padding: 0.5rem;
@@ -42,6 +36,7 @@
     border-radius: 0.5rem;
     transition: all 0.3s;
     width: fit-content;
+    border: none;
   }
   
 .btn:hover {
@@ -64,7 +59,7 @@
     flex-direction: column;
     padding: 1rem;
     border-right: 1px solid hsl(0, 0%, 90%);
-    height: 85vh;
+    height: 100%;
     overflow-y: auto;
 }
 
@@ -151,6 +146,11 @@
   padding: 0 1rem;
 }
 
+.row-div {
+    display: flex;
+    gap: 1rem;    
+}
+
 .panel {
     /* padding: 1rem;
     border-radius: 0.5rem;
@@ -193,7 +193,27 @@
 
 .task-title {
     font-size: 1.3rem;
-    font-weight: 900;
+    font-weight: 500;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.task-description {
+    font-size: 1.3rem;
+    border:none;
+    border-radius: 0.5rem;
+}
+
+.task-status {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.change {
+    /* font-size: 1.3rem;
+    font-weight: 900; */
+    border: 1px solid hsl(0, 0%, 80%);
+    border-radius: 0.5rem;
 }
 
 .show-done {
@@ -204,14 +224,20 @@
     border-bottom: 1px solid hsl(0, 0%, 80%);
 }
 
-.done {
+.COMPLETED {
     border-bottom: 3px solid green;
 }
 
-.pending {
+.IN_PROGRESS {
     border-bottom: 3px solid orange;
 }
 
-.canceled {
+.PENDING {
     border-bottom: 3px solid red;
+}
+
+.task-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

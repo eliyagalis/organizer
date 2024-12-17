@@ -2,16 +2,15 @@ import User from "../models/User.js";
 import {hash, compare} from "bcrypt";
 import jwt from 'jsonwebtoken';
 
-
 export const getUsers = async (req,res) => {
     try {
         const users = await User.find({});
 
-        if (!users){
+        if (!users) {
             return res.status(404).json({error: "users not found"});
         }
 
-        res.status(200).json({message: "user found successfully"}, users);
+        res.status(200).json(users);
 
     } catch (error) {
         res.status(500).json({error: "Internal server eror"});
