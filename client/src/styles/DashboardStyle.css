@@ -59,6 +59,7 @@
     flex-direction: column;
     padding: 1rem;
     border-right: 1px solid hsl(0, 0%, 90%);
+    min-height: 60vh;
     height: 100%;
     overflow-y: auto;
 }
@@ -196,6 +197,9 @@
     font-weight: 500;
     border: none;
     border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .task-description {
@@ -240,4 +244,25 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.hidden {
+    visibility: hidden;
+}   
+
+.exit {
+    font-weight: 400;
+    font-size: .9rem;
+    padding: 0 .4rem;
+    color: hsl(0, 100%, 30%);
+    border: 1px solid hsl(0, 0%, 80%);
+    border-radius: 50%;
+    visibility: visible;
+    transition: all 0.3s;
+}
+
+.exit:hover {
+    cursor: pointer;
+    background-color: hsl(0, 100%, 70%);
+    border: 1px solid hsl(0, 100%, 30%);
 }

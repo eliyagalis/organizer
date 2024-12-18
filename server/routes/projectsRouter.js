@@ -9,7 +9,7 @@ import {
 const projectsRouter = Router();
 
 projectsRouter
-    .route('/:userId/projects')
+    .route('/users/:userId/projects')
     .get(getProjects)
     .post(createProject);
 

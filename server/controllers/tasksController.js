@@ -1,10 +1,8 @@
+import Project from "../models/Project.js";
 import Task from "../models/Task.js";
 
 // Validations
-const validateTaskId = (id)=> {
-    return mongoose.Types.ObjectId.isValid(id);
-}
-const validateStatus = (status)=> {
+const isValidStatus = (status)=> {
     const validStatuses = ["pending", "in-progress", "completed"];
     return validStatuses.includes(status);
 }
@@ -12,28 +10,18 @@ const validateStatus = (status)=> {
 // Functions
 export const getTasks = async (req,res)=> {
     try {
-        const tasks = await Task.find({});
+        const {projectId} = req.params;
+        const project = await Project.findById(projectId);
+        
+        if (!project) {
+            console.log("error");
+            return res.status(404).json({error: "project not found"});
+        }
+
+        const tasks = await Task.find({projectId});
+        
         return res.status(200).json(tasks);
-    } catch (error) {
-        console.log("Error in get request", error);
-        res.status(500).json({ "error": "Internal Server Error" });
-    }
-};
-export const getTaskById = async (req,res)=> {
-    try {
-        const {id} = req.params;
 
-        if (!validateTaskId(id)) {
-            return res.status(400).json({"error":"Id not valid"});
-        }
-
-        const requestedTask = await Task.findById(id);
-
-        if (!requestedTask) {
-            return res.status(404).json({"error": "Task not found"});
-        }
-
-        return res.status(200).json(requestedTask);
     } catch (error) {
         console.log("Error in get request", error);
         res.status(500).json({ "error": "Internal Server Error" });
@@ -41,20 +29,22 @@ export const getTaskById = async (req,res)=> {
 };
 export const createTask = async (req,res)=> {
     try {
+        const projectId = req.params.projectId;
         const {title, description, status} = req.body;
 
         if (!title)  {
-            return res.status(400).json({"error": "Empty required fields"});
+            return res.status(400).json({"error": "title is required"});
         }
 
-        // if (!validateStatus(status)) {
-        //     return res.status(400).json({"error": "Status not valid"});
-        // }
+        if (!isValidStatus( status )) {
+            return res.status(400).json({"error": "Status not valid"});
+        }
 
         const createdTask = new Task({
             title,
             description,
-            status
+            status,
+            projectId
         });
 
         await createdTask.save();
@@ -63,6 +53,22 @@ export const createTask = async (req,res)=> {
         
     } catch (error) {
         console.log("Error in creating", error);
+        res.status(500).json({ "error": "Internal Server Error" });
+    }
+};
+export const getTaskById = async (req,res)=> {
+    try {        
+        const taskId = req.params;
+
+        const requestedTask = await Task.findById(taskId);
+
+        if (!requestedTask) {
+            return res.status(404).json({"error": "Task not found"});
+        }
+
+        return res.status(200).json(requestedTask);
+    } catch (error) {
+        console.log("Error in get request", error);
         res.status(500).json({ "error": "Internal Server Error" });
     }
 };

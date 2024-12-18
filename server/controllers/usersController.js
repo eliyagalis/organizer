@@ -16,7 +16,6 @@ export const getUsers = async (req,res) => {
         res.status(500).json({error: "Internal server eror"});
     }
 }
-
 export const getUserById = async (req,res) => {
     try {
         const {id} = req.params;
@@ -36,7 +35,6 @@ export const getUserById = async (req,res) => {
         res.status(500).json({error: "Internal server eror"});
     }
 }
-
 export const signup = async (req,res)=> {
     try {
         const { username, password, name, email } = req.body;
@@ -59,7 +57,6 @@ export const signup = async (req,res)=> {
         res.status(500).json({error: "Internal server eror"});
     }
 }
-
 export const login = async (req,res)=> {
     try {
         const {username, password} = req.body;
@@ -87,7 +84,6 @@ export const login = async (req,res)=> {
         res.status(500).json({error: "Internal server eror"});
     }
 }
-
 export const updateUser = async (req,res)=> {
     try {
         const { id } = req.params;
@@ -127,7 +123,6 @@ export const updateUser = async (req,res)=> {
         res.status(500).json({error: "Internal server eror"});
     }
 }
-
 export const deleteUser = async (req,res)=> {
     try {
         const {id} = req.params;

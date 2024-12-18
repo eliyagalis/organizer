@@ -5,12 +5,12 @@ import { getTasks, getTaskById, createTask, updateTask, deleteTask } from '../co
 const tasksRouter = express.Router();
 
 tasksRouter
-    .route('/:userId/projects/:projectId/tasks')
+    .route('/projects/:projectId/tasks')
     .get(getTasks)
     .post(createTask);
 
 tasksRouter
-    .route('/:userId/projects/:projectId/tasks/:id')
+    .route('/tasks/:taskId')
     .get(getTaskById)
     .put(updateTask)
     .delete(deleteTask);

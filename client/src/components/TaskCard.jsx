@@ -26,6 +26,7 @@ const TaskCard = ({ title = "", description = "", status = "", saveTask }) => {
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent page refresh
     console.log(taskInput);
+    setIsChanged(!isChanged);
     saveTask(taskInput); // Call saveTask with updated data
   };
 
@@ -44,6 +45,7 @@ const TaskCard = ({ title = "", description = "", status = "", saveTask }) => {
               setTaskInput({ ...taskInput, title: e.target.value })
             }
           />
+          <div className={!isChanged ? 'hidden' : 'exit'}>X</div>
         </div>
 
         {/* Description Input */}

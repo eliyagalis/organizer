@@ -12,7 +12,7 @@ export const getProjects = async (req,res)=> {
             return res.status(404);
         }
 
-        const projects = await Project.find({ userId});
+        const projects = await Project.find({ userId });
         
         return res.status(200).json(projects);
     
@@ -36,8 +36,6 @@ export const createProject = async (req,res)=> {
             return res.status(400).json({error: "Project name is required"});
         }
 
-        console.log('name valid');
-
         const newProject = new Project({
             name,
             ...otherFields,
@@ -60,7 +58,7 @@ export const createProject = async (req,res)=> {
 // /projects route
 export const getProjectById = async (req,res)=> {
     try {
-        const projectId = req.params.projectId;
+        const {projectId} = req.params.projectId;
 
         const project = await Project.find({ projectId });
         
