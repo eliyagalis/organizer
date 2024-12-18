@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 config();
 const PORT = process.env.PORT || 6061;
-app.use(cors({origin: 'http://localhost:6060', credentials: true}));
+app.use(cors({origin: 'http://localhost:5173', credentials: true}));
 const mongoURI = process.env.CONNECTION_STRING;
 
 app.use('/api/v1/users', usersRouter);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-const TaskCard = ({ title = "", description = "", status = "", saveTask }) => {
+const TaskCard = ({ title, description, status, saveTask }) => {
   const TaskStatus = [
     "",
-    "PENDING",
-    "IN_PROGRESS",
-    "COMPLETED",
+    "pending",
+    "in-progress",
+    "completed",
   ];
 
   const [taskInput, setTaskInput] = useState({ title, description, status });
@@ -20,12 +20,11 @@ const TaskCard = ({ title = "", description = "", status = "", saveTask }) => {
     ) {
       setIsChanged(true);
     }
-  }, [taskInput, title, description, status]);
+  }, [taskInput, title]);
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent page refresh
-    console.log(taskInput);
     setIsChanged(!isChanged);
     saveTask(taskInput); // Call saveTask with updated data
   };
@@ -36,21 +35,20 @@ const TaskCard = ({ title = "", description = "", status = "", saveTask }) => {
       <form onSubmit={handleSubmit}>
         {/* Title Input */}
         <div className="task-title">
-          <input
+          <textarea
             type="text"
             className={!isChanged ? 'task-title' : 'task-title change'}
             placeholder='Title...'
             value={taskInput.title}
             onChange={(e) =>
               setTaskInput({ ...taskInput, title: e.target.value })
-            }
-          />
+            }/>
           <div className={!isChanged ? 'hidden' : 'exit'}>X</div>
         </div>
 
         {/* Description Input */}
         <div className="task-description">
-          <input
+          <textarea
             type="text"
             className={!isChanged ? 'task-description' : 'task-description change'}
             placeholder='Describe the task...'

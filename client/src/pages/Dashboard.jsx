@@ -1,28 +1,32 @@
-    import React, { useState } from 'react'
+    import React, { useEffect, useState } from 'react'
     import '../styles/DashboardStyle.css';
     import { Link } from 'react-router';
     import TaskCard from '../components/TaskCard';
+import axios from 'axios';
 
     const Dashboard = ({companyName = 'Facebook Inc.'}) => {
 
-        // const [first, setfirst] = useState(second)
-        const [tasks, setTasks] = useState([
-            { id: 1, title: "TASK1", description: "Complete task1", status: "COMPLETED" },
-            { id: 2, title: "TASK2", description: "Complete task2", status: "PENDING" },
-            { id: 3, title: "TASK3", description: "Complete task3", status: "IN_PROGRESS" },
-        ]);
+        const [tasks, setTasks] = useState([]);
 
-        const saveTask = (updatedTask)=> {
-            console.log("Task Saved:", updatedTask);
+        useEffect(() => {
+            setTimeout(()=>{
+                axios.get('http://localhost:6060/api/v1/projects/6762a27ed336615d53d06444/tasks')
+                .then((res)=>setTasks(res.data))
+                .catch((error)=>console.log(error)).finally(console.log("axios success!"));
+            },0)
+        }, [])
+        
+
+        const saveTask = (updatedTask) => {
             setTasks((prevTasks) =>
                 prevTasks.map((task) =>
                     task.id === updatedTask.id ? updatedTask : task
                 ));
-        }
+        };
 
         const addTaskEvent = () => {
             const newTask = {
-                id: tasks.length+1,
+                id: tasks.length + 1,
                 title: "",
                 description: "",
                 status: "" 
@@ -65,17 +69,23 @@
                         + Add Task
                     </div>
                     <div className='tasks-space'>
-                    {
-                        tasks.map((t)=>
-                            (<TaskCard key={t.id} 
-                            title={t.title} 
-                            description={t.description}
-                            saveTask={(updatedTask) =>
-                                saveTask({ ...updatedTask, id: t.id })}
-                            status={t.status}/>))
-                    }
-
+                    {tasks.length === 0 ? (
+                        <p>nothing to show here...</p>
+                    ) : (
+                        tasks.map((t) => (
+                            <TaskCard
+                                key={t._id}
+                                title={t.title}
+                                description={t.description}
+                                saveTask={(updatedTask) =>
+                                    saveTask({ ...updatedTask, id: t.id })
+                                }
+                                status={t.status}
+                            />
+                        ))
+                    )}
                     </div>
+                    
                 </div>
             </div>
         </div>

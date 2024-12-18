@@ -194,18 +194,29 @@
 
 .task-title {
     font-size: 1.3rem;
-    font-weight: 500;
+    font-family: inherit;
+    font-weight: 600;
+    width:100%;
+    min-height: 1rem;
+    max-height: 8rem;
+    resize: none;
     border: none;
     border-radius: 0.5rem;
     display: flex;
-    align-items: center;
+    align-items:start;
     justify-content: space-between;
 }
 
 .task-description {
-    font-size: 1.3rem;
+    font-size: 1rem;
+    font-family: inherit;
     border:none;
     border-radius: 0.5rem;
+    height: auto;
+    resize: none;
+    overflow: hidden;
+    width: 100%;
+    max-height: 8rem;
 }
 
 .task-status {
@@ -228,15 +239,15 @@
     border-bottom: 1px solid hsl(0, 0%, 80%);
 }
 
-.COMPLETED {
+.completed {
     border-bottom: 3px solid green;
 }
 
-.IN_PROGRESS {
+.in-progress {
     border-bottom: 3px solid orange;
 }
 
-.PENDING {
+.pending {
     border-bottom: 3px solid red;
 }
 
