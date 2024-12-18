@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Task1",
+    "description": "Complete task1",
+    "status": "COMPLETED"
+  },
+  {
+    "name": "Task2", 
+    "description": "Complete task2", 
+    "status": "PENDING"
+  },
+  {
+    "name": "Task3",
+    "description": "Complete task3",
+    "status": "IN_PROGRESS"
+  }
+]

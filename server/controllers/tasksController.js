@@ -41,21 +41,20 @@ export const getTaskById = async (req,res)=> {
 };
 export const createTask = async (req,res)=> {
     try {
-        const {name, status = "pending", ...otherFields} = req.body;
+        const {title, description, status} = req.body;
 
-        if (!name)  {
+        if (!title)  {
             return res.status(400).json({"error": "Empty required fields"});
         }
 
-
-        if (!validateStatus(status)) {
-            return res.status(400).json({"error": "Status not valid"});
-        }
+        // if (!validateStatus(status)) {
+        //     return res.status(400).json({"error": "Status not valid"});
+        // }
 
         const createdTask = new Task({
-            name,
-            status,
-            ...otherFields
+            title,
+            description,
+            status
         });
 
         await createdTask.save();

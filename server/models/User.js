@@ -9,14 +9,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    fullName: {
+    name: {
         type: String,
         required: true,
     },
     email: {
         type: String,
         required: true,
-    }}, { timestamps: true });
+    },
+    projects: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        required: true,
+        
+    }],}, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
 

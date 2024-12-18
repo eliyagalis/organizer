@@ -6,10 +6,10 @@ import TaskCard from '../components/TaskCard';
 const Dashboard = ({companyName = 'Facebook Inc.'}) => {
 
     // const [first, setfirst] = useState(second)
-    // const TasksColl = [
-    //     {id: 1, title: "TASK1", description: "Complete task1", status: "COMPLETED"}, 
-    //     {id: 2, title: "TASK2", description: "Complete task2", status: "PENDING"},
-    //     {id:3, title: "TASK3", description: "Complete task3", status: "IN_PROGRESS"}];
+    const TasksColl = [
+        {id: 1, title: "TASK1", description: "Complete task1", status: "COMPLETED"}, 
+        {id: 2, title: "TASK2", description: "Complete task2", status: "PENDING"},
+        {id:3, title: "TASK3", description: "Complete task3", status: "IN_PROGRESS"}];
     
     
     

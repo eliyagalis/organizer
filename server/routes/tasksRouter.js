@@ -1,18 +1,18 @@
 import express from 'express';
-import { validateProjectId } from '../middlewares/validateProjectId.js';
+// import { validateProjectId } from '../middlewares/validateProjectId.js';
 import { getTasks, getTaskById, createTask, updateTask, deleteTask } from '../controllers/tasksController.js';
 
 const tasksRouter = express.Router();
 
 tasksRouter
-    .route('/:projectId/tasks')
-    .get(validateProjectId, getTasks)
-    .post(validateProjectId, createTask);
+    .route('/:userId/projects/:projectId/tasks')
+    .get(getTasks)
+    .post(createTask);
 
 tasksRouter
-    .route('/:projectId/tasks/:taskId')
-    .get(validateProjectId, getTaskById)
-    .put(validateProjectId, updateTask)
-    .delete(validateProjectId, deleteTask);
+    .route('/:userId/projects/:projectId/tasks/:id')
+    .get(getTaskById)
+    .put(updateTask)
+    .delete(deleteTask);
 
 export default tasksRouter;

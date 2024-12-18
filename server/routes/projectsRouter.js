@@ -9,12 +9,12 @@ import {
 const projectsRouter = Router();
 
 projectsRouter
-    .route('/')
+    .route('/:userId/projects')
     .get(getProjects)
     .post(createProject);
 
 projectsRouter
-    .route('/:id')
+    .route('/projects/:projectId')
     .get(getProjectById)
     .put(updateProject)
     .delete(deleteProject);

@@ -39,21 +39,21 @@ export const getUserById = async (req,res) => {
 
 export const signup = async (req,res)=> {
     try {
-        const { username, password, fullName, email } = req.body;
+        const { username, password, name, email } = req.body;
 
-        if (!username || !password || !fullName || !email ) {
+        if (!username || !password || !name || !email ) {
             return res.status(400).json({error: "required fields are empty"})
         }
 
         const hashedPassword = await hash(password, 10);
-        const user = await User({username, password: hashedPassword, fullName, email});
+        const user = await User({username, password: hashedPassword, name, email, projects: []});
 
         await user.save();
         
         const token = jwt.sign({username}, process.env.TKN_KEY,{expiresIn:'3m', issuer: 'http://localhost:6060'});
         res.cookie('jwt', token, {httpOnly: true, maxAge: 50000});
 
-        res.status(201).json({message: "user was created soccessfully"});
+        res.status(201).json({message: "user was created successfully"});
 
     } catch (error) {
         res.status(500).json({error: "Internal server eror"});

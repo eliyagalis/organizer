@@ -15,11 +15,10 @@ const taskSchema = new mongoose.Schema({
       enum: ["pending", "in-progress", "completed"],
       default: "pending",
     },
-    projectId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Project", // Reference to the Project model
-      required: true,
-    },
+    projectId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Project', 
+      required: true }
   }, { timestamps: true });
   
   const Task = mongoose.model("Task", taskSchema);
