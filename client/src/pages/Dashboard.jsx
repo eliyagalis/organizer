@@ -12,11 +12,10 @@ import axios from 'axios';
             setTimeout(()=>{
                 axios.get('http://localhost:6060/api/v1/projects/6762a27ed336615d53d06444/tasks')
                 .then((res)=>setTasks(res.data))
-                .catch((error)=>console.log(error)).finally(console.log("axios success!"));
+                .catch((error)=>console.log(error));
             },0)
-        }, [])
+        }, []);
         
-
         const saveTask = (updatedTask) => {
             setTasks((prevTasks) =>
                 prevTasks.map((task) =>
