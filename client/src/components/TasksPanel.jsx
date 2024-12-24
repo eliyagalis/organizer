@@ -1,7 +1,8 @@
 import React from 'react'
 import TaskCard from './TaskCard';
 
-const TasksPanel = ({ 
+const TasksPanel = ({
+  project = {name: "project1", _id: ""},
   tasks, 
   isAddingNew, 
   isLoading, 
@@ -12,7 +13,7 @@ const TasksPanel = ({
   return (
     <div className="panel">
                     <div className="panel-bar">
-                        <div className="title">Project 1</div>
+                        <div className="title">{project.name}</div>
                         <button className="btn show-done">Show Done</button>
                     </div>
                     <button
