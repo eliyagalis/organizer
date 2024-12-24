@@ -7,7 +7,9 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import SignUp from './pages/SignUp'
 import Profile from './pages/Profile'
+import axios from 'axios'
 
+axios.defaults.baseURL = 'http://localhost:6060/api/v1';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>

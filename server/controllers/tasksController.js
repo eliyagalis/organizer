@@ -58,7 +58,7 @@ export const createTask = async (req,res)=> {
 };
 export const getTaskById = async (req,res)=> {
     try {        
-        const taskId = req.params;
+        const taskId = req.params.taskId;
 
         const requestedTask = await Task.findById(taskId);
 
@@ -74,24 +74,20 @@ export const getTaskById = async (req,res)=> {
 };
 export const updateTask = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { status, name, description } = req.body;
+        const id = req.params.taskId;
+        const { title, status, description } = req.body;
 
-        if (!validateTaskId(id)) {
-            return res.status(404).json({"error": "Task not found"})
-        }
-
-        if (!validateStatus(status)) {
+        if (!isValidStatus(status)) {
             return res.status(400).json({ "error": "Invalid status provided" });
         }
 
-        if (!name) {
+        if (!title) {
             return res.status(400).json({ "error": "Name is required" });
         }
 
         const updateFields = {};
-        if (status) updateFields.status = status;
-        if (name) updateFields.name = name;
+        updateFields.title = title;
+        updateFields.status = status;
         if (description) updateFields.description = description;
 
         if (Object.keys(updateFields).length === 0) {
@@ -101,6 +97,7 @@ export const updateTask = async (req, res) => {
         const updatedTask = await Task.findByIdAndUpdate(id, updateFields, { new: true });
 
         if (!updatedTask) {
+            console.log(id);
             return res.status(404).json({ "error": "Task not found" });
         }
 
@@ -112,9 +109,9 @@ export const updateTask = async (req, res) => {
 };
 export const deleteTask = async (req, res) => {
     try {
-        const { id } = req.params;
+        const id = req.params.taskId;
 
-        if (!validateTaskId(id)) {
+        if (!id) {
             return res.status(400).json({ "error": "Invalid Task ID" });
         }
 

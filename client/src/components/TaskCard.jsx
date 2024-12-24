@@ -1,68 +1,83 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-const TaskCard = ({ title, description, status, saveTask }) => {
+const TaskCard = ({_id, title = "", description = "", status = "pending" ,saveTask, deleteTask}) => {
   const TaskStatus = ["pending", "in-progress", "completed"];
-  const [taskInput, setTaskInput] = useState({ title, description, status });
-  const [isChanged, setIsChanged] = useState(false);
+  const [taskInput, setTaskInput] = useState({ _id: "", title: "", description: "", status: ""});
+  const [isEdit, setIsEdit] = useState(false);
 
-  // Detect changes in taskInput
-  useEffect(() => {
-    if (
-      taskInput.title !== title ||
-      taskInput.description !== description ||
-      taskInput.status !== status
-    ) {
-      setIsChanged(true);
-    } else {
-      setIsChanged(false);
+  const deleteHandler = (e)=>{
+    e.preventDefault();
+    if(!isEdit){
+      return;
     }
-  }, [taskInput]);
+    setIsEdit(false);
+    deleteTask();
+  }
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page refresh
-    saveTask(taskInput); // Call saveTask with updated data
-    setIsChanged(false); // Reset change state
-  };
-
-  // Handle cancel edit
-  const cancelEdit = () => {
-    setTaskInput({ title, description, status }); // Reset to original values
-    setIsChanged(false);
-  };
+  useEffect(() => {
+    if (!title) {
+      setIsEdit(true);
+    }
+    setTaskInput({...taskInput, _id, title, description, status})
+  }, [])
+  
+  const saveHandler = (e)=> {
+    e.preventDefault();
+    if (!taskInput.title) {
+      alert('Task title is required');
+    }
+    const editState = isEdit;
+    setIsEdit(!editState);
+    saveTask(taskInput);
+  }
 
   return (
-    <div className={taskInput.status + " task"}>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <textarea
-            type="text"
-            className={isChanged ? "task-title change" : "task-title"}
+    <div className={"task " + taskInput.status}>
+      <div>
+        {!isEdit?
+        (<div className='task-title'>{taskInput.title}</div>):
+        (<div className='row-div'>
+          <textarea type="text"
+            className="task-title change"
             placeholder="Title..."
             value={taskInput.title}
             onChange={(e) =>
               setTaskInput({ ...taskInput, title: e.target.value })
             }
-          />
-        </div>
-
-        <div>
-          <textarea
-            type="text"
-            className={isChanged ? "task-description change" : "task-description"}
-            placeholder="Describe the task..."
+           />
+        </div>)  
+        }
+      </div>
+      {/* <div>
+        {
+          isEdit?(<span>
+            {
+              isEdit?
+            }
+            </span>):null
+        }
+      </div> */}
+      <div>
+      {!isEdit?
+        (<div className='task-description'>{taskInput.description}</div>):
+        (<textarea type="text"
+            className="task-description change"
+            placeholder="Description..."
             value={taskInput.description}
             onChange={(e) =>
               setTaskInput({ ...taskInput, description: e.target.value })
             }
-          />
-        </div>
-
+           />)}
+      </div>
+      <div className='row-div'>
+        <b>Status:</b>
         <div className="task-status">
-          <b>Status: </b>
+          {!isEdit ? (
+          <span>{taskInput.status}</span>
+          ) : (
           <select
             id="status"
-            className={isChanged ? "task-status change" : "task-status"}
+            className="task-status change"
             value={taskInput.status}
             onChange={(e) =>
               setTaskInput({ ...taskInput, status: e.target.value })
@@ -70,29 +85,28 @@ const TaskCard = ({ title, description, status, saveTask }) => {
           >
             {TaskStatus.map((st, index) => (
               <option key={index} value={st}>
-                {st}
+              {st}
               </option>
-            ))}
+              ))}
           </select>
-        </div>
-
-        <br />
-        <div className="task-bottom">
-          <span>2 days ago.</span>
-          {isChanged && (
-            <>
-              <button type="submit" className="btn">
-                Save
-              </button>
-              <button type="button" className="btn" onClick={cancelEdit}>
-                Cancel
-              </button>
-            </>
           )}
         </div>
-      </form>
+      </div>
+      <div className='task-buttons'>
+        {
+          !isEdit?
+          (<button className='edit btn' onClick={saveHandler}>Edit</button>
+          
+          ):(
+            <div>
+              <button className='save btn' onClick={saveHandler}>Save</button>
+              <button className='delete btn' onClick={deleteHandler}>delete</button>
+            </div>
+          )
+        }
+      </div>
     </div>
-  );
-};
+  )
+}
 
 export default TaskCard;

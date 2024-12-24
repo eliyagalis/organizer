@@ -1,94 +1,98 @@
-    import React, { useEffect, useState } from 'react'
-    import '../styles/DashboardStyle.css';
-    import { Link } from 'react-router';
-    import TaskCard from '../components/TaskCard';
+import { useEffect, useState, useReducer } from 'react';
+import '../styles/DashboardStyle.css';
+import { Link } from 'react-router';
 import axios from 'axios';
+import Sidebar from '../components/Sidebar';
+import TasksPanel from '../components/TasksPanel';
 
-    const Dashboard = ({companyName = 'Facebook Inc.'}) => {
+const Dashboard = () => {
+    const [tasks, setTasks] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isAddingNew, setIsAddingNew] = useState(false);
 
-        const [tasks, setTasks] = useState([]);
+    useEffect(() => {
+        axios
+            .get('/projects/6762a27ed336615d53d06444/tasks')
+            .then((res) => setTasks(res.data))
+            .catch((error) => console.log(error))
+            .finally(()=> setIsLoading(false));
+    
+    }, []);
 
-        useEffect(() => {
-            setTimeout(()=>{
-                axios.get('http://localhost:6060/api/v1/projects/6762a27ed336615d53d06444/tasks')
-                .then((res)=>setTasks(res.data))
-                .catch((error)=>console.log(error));
-            },0)
-        }, []);
-        
-        const saveTask = (updatedTask) => {
-            setTasks((prevTasks) =>
-                prevTasks.map((task) =>
-                    task.id === updatedTask.id ? updatedTask : task
-                ));
-        };
-
-        const addTaskEvent = () => {
-            const newTask = {
-                id: tasks.length + 1,
-                title: "",
-                description: "",
-                status: "" 
-            };
-            setTasks([...tasks, newTask]);
+    const saveTask = (task) => {
+        if(isAddingNew) {
+            axios.post('/projects/6762a27ed336615d53d06444/tasks/', task)
+            .then((res)=> {
+                console.log(res.data);
+                setTasks((prevTasks)=>[...prevTasks, res.data]);
+            })
+            .catch((error)=>console.log(error));
+        } else {
+            axios.put(axios.defaults.baseURL+'/tasks/'+task._id, task)
+            .then((res)=> setTasks((prevTasks) =>
+                    prevTasks.map((prevTask) => 
+                        (prevTask._id === task._id ? task : prevTask)))
+            )
+            .catch((error)=> console.log(error));
         }
+        setIsAddingNew(false);
+    };
 
-        return (
-        <div className='dashboard-page'>
-            <div className='dashboard-header'>
-                <Link className='dashboard-header-title' to="/dashboard">organizer</Link>
+    const deleteTask = (taskForDeletion) => {
+        if(isAddingNew) {
+            setTasks((prevState) =>
+                prevState.filter((task) => task._id !== taskForDeletion._id)
+            );
+            setIsAddingNew(false);
+        }
+        else {
+            axios.delete('/tasks/'+taskForDeletion._id).then((res)=> {
+                setTasks((prevState) =>
+                    prevState.filter((task) => task._id !== taskForDeletion._id)
+                );
+            }).catch((error)=> console.log(error));
+        }
+    };
+
+    const addBlankTaskEvent = (e) => {
+        const newTask = {
+            _id: tasks.length + 1,
+            title: '',
+            description: '',
+            status: 'pending',
+        };
+        setTasks([...tasks, newTask]);
+        setIsAddingNew(true);
+    };
+
+    return (
+        <div className="dashboard-page">
+            <div className="dashboard-header">
+                <Link className="dashboard-header-title" to="/dashboard">
+                    organizer
+                </Link>
                 <div>
-                    <Link className='btn' to="/">Home</Link>
-                    <Link className='btn' to="/profile">Profile</Link>
+                    <Link className="btn" to="/">
+                        Home
+                    </Link>
+                    <Link className="btn" to="/profile">
+                        Profile
+                    </Link>
                 </div>
             </div>
-            <div className='dashboard-container'>
-                <div className='sidebar'>
-                    <div className="title">Dashboard</div>
-                    <div>{companyName}</div>
-                    <br/>
-                    <div className='sidebar-menu-item'>General</div>
-                    <div className='sidebar-menu'>
-                        <div className='sidebar-menu-item'>Projects</div>
-                        <div className='btn'>+</div>
-                    </div>
-                    <ul className='sidebar-ul'>
-                        <li 
-                        className='sidebar-menu-item'>Project 1
-                        </li>
-                    </ul>
-                    <div className='sidebar-bottom-menu sidebar-menu-item'>Settings</div>
-                </div>
-                <div className='panel'>
-                    <div className='panel-bar'>
-                        <div className='title'>Project 1</div>
-                        <button className='btn show-done'>Show Done</button>
-                    </div>
-                    <div className='btn' onClick={addTaskEvent}>
-                        + Add Task
-                    </div>
-                    <div className='tasks-space'>
-                    {tasks.length === 0 ? (
-                        <p>nothing to show here...</p>
-                    ) : (
-                        tasks.map((t) => (
-                            <TaskCard
-                                key={t._id}
-                                title={t.title}
-                                description={t.description}
-                                saveTask={(updatedTask) =>
-                                    saveTask({ ...updatedTask, id: t.id })
-                                }
-                                status={t.status}
-                            />
-                        ))
-                    )}
-                    </div>
-                    
-                </div>
+            <div className="dashboard-container">
+                <Sidebar />
+                <TasksPanel
+                    tasks={tasks}
+                    isAddingNew={isAddingNew}
+                    isLoading={isLoading}
+                    addBlankTaskEvent={addBlankTaskEvent}
+                    saveTask={saveTask}
+                    deleteTask={deleteTask}
+                />
             </div>
         </div>
-        )
-    }
+    );
+};
 
-    export default Dashboard;
+export default Dashboard;
