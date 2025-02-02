@@ -1,16 +1,14 @@
-import {Router} from 'express';
-import { getUsers, getUserById, signup, login, deleteUser, updateUser } from '../controllers/usersController.js';
+import express from "express";
+import * as userController from "../controllers/userController.js";
+import { verifyToken } from "../middlewares/authMiddleware.js";
 
-const usersRouter = Router();
+const router = express.Router();
 
-usersRouter.route('/')
-    .get(getUsers)
-    .post(signup)
-    .post(login);
+router.get("/", verifyToken, userController.getUsers);
+router.get("/:id", verifyToken, userController.getUserById);
+router.post("/signup", userController.signup);
+router.post("/login", userController.login);
+router.put("/:id", verifyToken, userController.updateUser);
+router.delete("/:id", verifyToken, userController.deleteUser);
 
-usersRouter.route('/:id')
-    .get(getUserById)
-    .put(updateUser)
-    .delete(deleteUser);
-
-export default usersRouter;
+export default router;

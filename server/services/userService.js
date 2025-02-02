@@ -1,0 +1,61 @@
+import User from "../models/User.js";
+import { hash, compare } from "bcrypt";
+import jwt from "jsonwebtoken";
+
+
+// Get all users
+export const getAllUsers = async () => {
+  return await User.find({});
+};
+
+
+// Get user by ID
+export const getUserById = async (id) => {
+  return await User.findById(id);
+};
+
+
+// Signup new user
+
+export const signupUser = async ({ username, password, name, email }) => {
+  const hashedPassword = await hash(password, 10);
+  const user = new User({ username, password: hashedPassword, name, email, projects: [] });
+  await user.save();
+
+  const token = generateToken(user._id);
+  return { user, token };
+};
+
+// Login user
+export const loginUser = async ({ username, password }) => {
+  const user = await User.findOne({ username });
+  if (!user || !(await compare(password, user.password))) {
+    throw new Error("Invalid username or password");
+  }
+
+  const token = generateToken(user._id);
+  return { user, token };
+};
+
+// Update user
+export const updateUser = async (id, updates) => {
+  const user = await User.findById(id);
+  if (!user) throw new Error("User not found");
+
+  Object.assign(user, updates);
+  if (updates.password) user.password = await hash(updates.password, 10);
+
+  await user.save();
+  return user;
+};
+
+// Delete user
+export const deleteUser = async (id) => {
+  return await User.findByIdAndDelete(id);
+};
+
+
+// Generate JWT Token
+export const generateToken = (userId) => {
+  return jwt.sign({ userId }, process.env.TKN_KEY, { expiresIn: "1h", issuer: "http://localhost:6060" });
+};
