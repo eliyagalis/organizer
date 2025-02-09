@@ -2,21 +2,17 @@ import User from "../models/User.js";
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 
-
 // Get all users
 export const getAllUsers = async () => {
   return await User.find({});
 };
-
 
 // Get user by ID
 export const getUserById = async (id) => {
   return await User.findById(id);
 };
 
-
 // Signup new user
-
 export const signupUser = async ({ username, password, name, email }) => {
   const hashedPassword = await hash(password, 10);
   const user = new User({ username, password: hashedPassword, name, email, projects: [] });

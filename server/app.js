@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import {config} from 'dotenv';
 import mongoose from "mongoose";
-
 import projectsRouter from "./routes/projectsRouter.js";
 import tasksRouter from "./routes/tasksRouter.js";
 import usersRouter from "./routes/usersRouter.js";
@@ -15,8 +14,8 @@ app.use(cors({origin: 'http://localhost:5173', credentials: true}));
 const mongoURI = process.env.CONNECTION_STRING;
 
 app.use('/api/v1/users', usersRouter);
-app.use('/api/v1', projectsRouter);
-app.use('/api/v1', tasksRouter);
+app.use('/api/v1/projects', projectsRouter);
+app.use('/api/v1/tasks', tasksRouter);
 
 mongoose.connect(mongoURI).then(()=> {
     app.listen(PORT, ()=> {
