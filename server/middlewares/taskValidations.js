@@ -1,5 +1,5 @@
 export const validateTask = (req, res, next) => {
-    const { title, description, status, projectId } = req.body;
+    const { title, description, status } = req.body;
     const errors = [];
 
     if (!title) {
@@ -13,11 +13,6 @@ export const validateTask = (req, res, next) => {
     const validStatuses = ["pending", "in-progress", "completed"];
     if (!validStatuses.includes(status)) {
         errors.push({ msg: "Invalid status" });
-    }
-
-    const isValidMongoId = (id) => /^[a-f\d]{24}$/i.test(id);
-    if (!isValidMongoId(projectId)) {
-        errors.push({ msg: "Invalid project ID" });
     }
 
     if (errors.length > 0) {

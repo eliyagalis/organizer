@@ -3,8 +3,9 @@ import * as taskService from "../services/taskService.js";
 
 export const getTasks = async (req,res)=> {
     try {
-        const {projectId} = req.params;
-        const tasks = taskService.getAllTasks(projectId);
+        const { projectId } = req.params;
+        console.log(projectId);
+        const tasks = await taskService.getAllTasks(projectId);
         return res.status(200).json(tasks);
     } catch (error) {
         res.status(500).json({ error: "Error in fetching tasks" });

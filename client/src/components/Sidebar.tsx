@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Sidebar = ({companyName = 'Organization inc.'}) => {
+const Sidebar = () => {
   return (
     <div className="sidebar">
         <div className="sidebar-top">
             <div className="title">Dashboard</div>
-            <div>{companyName}</div>
+            <div>companyName</div>
             <div className="sidebar-menu-item">General</div>
             <div className="sidebar-menu">
                 <div className="sidebar-menu-item">Projects</div>

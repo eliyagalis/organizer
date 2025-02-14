@@ -1,7 +1,8 @@
 import Task from "../models/Task.js"
 
 export const getAllTasks = async(projectId)=> {
-    return await Task.find({ projectId });
+    const tasks = await Task.find({ projectId });
+    return tasks;
 };
 
 export const getTaskById = async(taskId)=> {
@@ -9,7 +10,7 @@ export const getTaskById = async(taskId)=> {
 };
 
 export const createTask = async(title, description, status, projectId)=> {
-    const newTask = new Task({ title, description, status, projectId});
+    const newTask = new Task({ title, description, status, projectId });
     return await newTask.save();
 };
 
