@@ -5,7 +5,7 @@ import { validateProject } from '../middlewares/projectValidation.js';
 
 const projectsRouter = Router();
 
-projectsRouter.get('/', getProjects);
+projectsRouter.get('/user/:userId', getProjects);
 projectsRouter.get('/:projectId', getProjectById);
 projectsRouter.post('/', validateProject, createProject);
 projectsRouter.put('/:projectId', validateProject, updateProject);

@@ -4,7 +4,7 @@ import './index.css'
 import {BrowserRouter as Router, Routes, Link, Route} from 'react-router'
 import Home from './pages/Home'
 import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
+import Dash from './pages/Dash'
 import SignUp from './pages/SignUp'
 import Profile from './pages/Profile'
 import axios from 'axios'
@@ -19,7 +19,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-in" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dash" element={<Dash />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
