@@ -1,0 +1,70 @@
+.register-page {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    background-color: hsl(0, 0%, 95%);
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.register-form {
+    margin-top: 1rem;
+    background-color: #fff;
+    padding: 4rem 5rem;
+    border-radius: 3rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    text-align: center;
+}
+
+.headline1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.headline2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.register-input {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.2rem;
+    outline: none;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.input-icon {
+    margin-right: 0.5rem;
+    color: #888;
+}
+
+.submit {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    background-color: hsl(0, 0%, 95%);
+    box-sizing: border-box;
+}
+
+.btn {
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+
+.invalid {
+    background-color: hsl(0, 100%, 76%);
+    border: 1px solid hsl(0, 100%, 68%);
+}

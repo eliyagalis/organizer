@@ -23,9 +23,8 @@ export const getUserById = async (req, res) => {
 export const signup = async (req, res) => {
   try {
     const { user, token } = await userService.signupUser( req.body );
-    console.log(user, token);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
-    //res.status(201).json({ message: "User created successfully", user });
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000, sameSite: "Lax" });
+    res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -34,7 +33,7 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { user, token } = await userService.loginUser(req.body);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000, sameSite: "Lax" });
     res.status(200).json({ user });
   } catch (error) {
     res.status(401).json({ error: error.message });

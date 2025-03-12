@@ -1,30 +1,62 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { login, signup, logout } from "../services/userService";
 
-export const UserContext = createContext();
+const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
-
-    const setUserData = (userData) => {
-        localStorage.setItem("user", JSON.stringify(userData));
-        setUser(userData);
-    };
-
-    const removeUserData = () => {
-        localStorage.removeItem("user");
+  useEffect(() => {
+    // getCurrentUser().then((user) => {
+      if (user) {
+        setUser(user);
+        localStorage.setItem("user", JSON.stringify(user));
+      } else {
         setUser(null);
-    };
+        localStorage.removeItem("user");
+      }
+    // });
+  }, []);
 
-    return (
-        <UserContext.Provider value={{ user, setUserData, removeUserData }}>
-            {children}
-        </UserContext.Provider>
-    );
+  const handleLogin = async (username, password) => {
+    try {
+      const data = await login(username, password);
+      setUser(data.user);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return true;
+    } catch (error) {
+      console.error(error.message);
+      return false;
+    }
+  };
+
+  const handleSignup = async (email, username, password) => {
+    try {
+      const data = await signup(email, username, password);
+      console.log(data);
+      setUser(data.user);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return true;
+    } catch (error) {
+      console.error(error.message);
+      return false;
+    }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+    localStorage.removeItem("user");
+  };
+
+  return (
+    <UserContext.Provider value={{ user, login: handleLogin, signup: handleSignup, logout: handleLogout }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
+
+export const useUser = () => useContext(UserContext);

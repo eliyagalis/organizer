@@ -1,48 +1,63 @@
-import { useState, useContext } from 'react';
-import '../styles/LoginStyle.css';
-import { UserContext } from '../context/userContext';
-import { login } from '../services/userService';
+import { useState } from "react";
+import "../styles/LoginStyle.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from "react-router";
+import { useUser } from "../context/userContext";
 
 const Login = () => {
-    const { setUserData } = useContext(UserContext);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+  const { login } = useUser();
+  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await login(email, password);
-            setUserData(res.data.user);
-        } catch (err) {
-            console.log(err.message);
-        }
-    };
+  const navigate = useNavigate();
 
-    return (
-        <div className="login-page">
-            <form className="login-form" onSubmit={handleLogin}>
-                <h2>Login</h2>
-                <div className="form-group">
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" className="btn">Login</button>
-            </form>
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      await login(username, password) && navigate("/dash");
+      
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  return (
+    <div className="register-page">
+      <form onSubmit={handleSignup} className="register-form">
+        <div className="headline1">Login</div>
+        <div>
+          <FontAwesomeIcon icon={faUser} className="input-icon" />
+          <input
+            className="register-input"
+            id="username"
+            value={username}
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
-    );
+        <div>
+        <FontAwesomeIcon icon={faLock} className="input-icon" />
+          <input
+            className="register-input"
+            type="password"
+            id="password"
+            value={password}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div>
+          <button type="submit" className="submit btn">
+            Login
+          </button>
+        </div>
+        Don't have an account?{" "}
+        <Link to="/signup">Sign Up</Link>
+      </form>
+    </div>
+  );
 };
 
 export default Login;

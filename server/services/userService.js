@@ -14,14 +14,12 @@ export const getUserById = async (id) => {
 
 // Signup new user
 export const signupUser = async ( newUser ) => {
-  const { username, password, email } = newUser;
-  console.log(username, password, email);
+  const { email, username, password } = newUser;
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log(hashedPassword);
-  const user = new User({ username, password: hashedPassword, email, projects: [] });
+  const user = new User({ email, username, password: hashedPassword, projects: [] });
   await user.save();
+  
   const token = generateToken(user._id);
-  console.log(token);
   return { user, token };
 };
 
@@ -53,8 +51,7 @@ export const deleteUser = async (id) => {
   return await User.findByIdAndDelete(id);
 };
 
-
 // Generate JWT Token
 export const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.TKN_KEY, { expiresIn: "2h", issuer: "http://localhost:6060" });
+  return jwt.sign({ userId }, process.env.TKN_KEY, { expiresIn: "1h", issuer: "http://localhost:6060" });
 };

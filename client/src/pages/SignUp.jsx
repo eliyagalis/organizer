@@ -1,61 +1,74 @@
-import { useState, useContext } from 'react';
-import '../styles/LoginStyle.css';
-import { UserContext } from '../context/userContext';
-import { login, signup } from '../services/userService';
-import { useNavigate } from 'react-router';
+import { useState } from "react";
+import "../styles/LoginStyle.css";
+import { Link, useNavigate } from "react-router";
+import { useUser } from "../context/userContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const SignUp = () => {
-    const { setUserData } = useContext(UserContext);
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const { signup } = useUser();
 
-    const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const handleSignup = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await signup({username, email, password});
-            setUserData(res.data.user);
-            navigate('/dash');
-        } catch (err) {
-            console.log(err.message);
-        }
-    };
+  const navigate = useNavigate();
 
-    return (
-        <div className="signup page">
-            <form onSubmit={handleSignup}>
-                <h2>Sign Up</h2>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" className="btn">Sign Up</button>
-            </form>
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      await signup(email, username, password);
+      navigate("/dash");
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  return (
+    <div className="register-page">
+      <form onSubmit={handleSignup} className="register-form">
+        <div className="headline1">Sign Up</div>
+        <div>
+          <FontAwesomeIcon icon={faUser} className="input-icon" />
+          <input
+            className="register-input"
+            id="username"
+            value={username}
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
-    );
+        <div>
+          <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
+          <input
+            className="register-input"
+            id="email"
+            value={email}
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div>
+          <FontAwesomeIcon icon={faLock} className="input-icon" />
+          <input
+            className="register-input"
+            type="password"
+            id="password"
+            value={password}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div>
+          <button type="submit" className="submit btn">
+            Sign Up
+          </button>
+        </div>
+        Already have an account?{" "}
+        <Link to="/login">Log In</Link>
+      </form>
+    </div>
+  );
 };
 
 export default SignUp;

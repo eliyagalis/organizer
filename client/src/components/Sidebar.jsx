@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProjects } from '../services/projectService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({id}) => {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [newProject, setNewProject] = useState({name: 'New Project'});
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -12,7 +15,7 @@ const Sidebar = ({id}) => {
         const res = await fetchProjects(id);
         setProjects(res.data);
       } catch (err) {
-        setError(err.message);
+        console.log(err.message);
       } finally {
         setIsLoading(false);
       }
@@ -25,20 +28,32 @@ const Sidebar = ({id}) => {
     return <p>Loading projects...</p>;
   }
 
-  if (error) {
-    return <p>Error loading projects: {error}</p>;
+  
+  const handleAddProject = (e) => {
+    e.preventDefault();
+    setEditing(true);
+    setProjects([...projects, newProject]);
+
   }
 
   return (
     <div className="row-div">
       <div>
-        <h2>Projects</h2>
-        <ul>
+        <div className='inline'>
+          <div className='headline2'>Projects</div>
+          <button className='add-project btn' onClick={handleAddProject}>
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
+        </div>
+        <ul className='projects-list'>
           {projects.length === 0 ? (
-            <p>No projects available</p>
+            <p>Click <FontAwesomeIcon icon={faPlus} /> to add a new project</p>
           ) : (
-            projects.map((project) => (
-              <li key={project._id}>{project.name}</li>
+            projects.map((project, index) => (
+              (editing?(
+              <input key={index} onChange={(e)=>setNewProject({...newProject, name: e.target.value})} value={newProject.name}/>
+            ):(
+            <li key={project._id}>{project.name}</li>))
             ))
           )}
         </ul>

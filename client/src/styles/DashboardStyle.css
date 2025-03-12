@@ -13,7 +13,6 @@
     color: inherit;
     border-radius: 0.5rem;
     transition: all 0.3s;
-    width: fit-content;
     border: none;
 }
 
@@ -40,6 +39,23 @@
     padding: 0 1rem;
     border-radius: 0 1rem 1rem 0;
     background-color: hsl(0, 0%, 100%);
+}
+
+.inline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-project {
+    width: fit-content;
+}
+
+.projects-list {
+    border-radius: 0 0 .5rem .5rem;
+    background-color: hsl(0, 0%, 97%);
+    list-style: none;
 }
 
 .tasks-container {
