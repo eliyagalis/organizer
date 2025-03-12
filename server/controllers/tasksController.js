@@ -4,7 +4,6 @@ import * as taskService from "../services/taskService.js";
 export const getTasks = async (req,res)=> {
     try {
         const { projectId } = req.params;
-        console.log(projectId);
         const tasks = await taskService.getAllTasks(projectId);
         return res.status(200).json(tasks);
     } catch (error) {

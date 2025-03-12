@@ -22,9 +22,10 @@ export const getUserById = async (req, res) => {
 
 export const signup = async (req, res) => {
   try {
-    const { user, token } = await userService.signupUser(req.body);
+    const { user, token } = await userService.signupUser( req.body );
+    console.log(user, token);
     res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
-    res.status(201).json({ message: "User created successfully", user });
+    //res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

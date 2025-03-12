@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import { hash, compare } from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 // Get all users
@@ -13,19 +13,22 @@ export const getUserById = async (id) => {
 };
 
 // Signup new user
-export const signupUser = async ({ username, password, name, email }) => {
-  const hashedPassword = await hash(password, 10);
-  const user = new User({ username, password: hashedPassword, name, email, projects: [] });
+export const signupUser = async ( newUser ) => {
+  const { username, password, email } = newUser;
+  console.log(username, password, email);
+  const hashedPassword = await bcrypt.hash(password, 10);
+  console.log(hashedPassword);
+  const user = new User({ username, password: hashedPassword, email, projects: [] });
   await user.save();
-
   const token = generateToken(user._id);
+  console.log(token);
   return { user, token };
 };
 
 // Login user
 export const loginUser = async ({ username, password }) => {
   const user = await User.findOne({ username });
-  if (!user || !(await compare(password, user.password))) {
+  if (!user || !(await bcrypt.compare(password, user.password))) {
     throw new Error("Invalid username or password");
   }
 
@@ -53,5 +56,5 @@ export const deleteUser = async (id) => {
 
 // Generate JWT Token
 export const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.TKN_KEY, { expiresIn: "1h", issuer: "http://localhost:6060" });
+  return jwt.sign({ userId }, process.env.TKN_KEY, { expiresIn: "2h", issuer: "http://localhost:6060" });
 };

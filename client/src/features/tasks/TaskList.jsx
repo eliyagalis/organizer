@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import TaskCardComponent from '../../components/TaskCardComponent';
 import { fetchTasks } from '../../services/taskService';
 
-type TasksListProps = {
-  project: {
-    _id: string
-  },
-};
 
-const TasksList: React.FC<TasksListProps> = ({ project }) => {
+const TasksList = ({ project }) => {
   const [ProjectName, setProjectName] = useState('');
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,7 +35,7 @@ const TasksList: React.FC<TasksListProps> = ({ project }) => {
   return (
     <div>
       <h2>{}</h2>
-      <div className='tasks-list'>
+      <div className='tasks'>
         {tasks.length === 0 ? (
           <p>No tasks available</p>
         ) : (

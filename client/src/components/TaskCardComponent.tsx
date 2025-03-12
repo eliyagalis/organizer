@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 
-
 const TaskCardComponent = ({ task }) => {
     const TaskStatus = ["pending", "in-progress", "completed"];
     const [taskInput, setTaskInput] = useState({ ...task });

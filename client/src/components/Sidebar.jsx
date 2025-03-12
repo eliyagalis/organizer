@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProjects } from '../services/projectService';
 
-const Sidebar = () => {
+const Sidebar = ({id}) => {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,7 +9,7 @@ const Sidebar = () => {
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        const res = await fetchProjects("67618644f5bbbe5cd8863146");
+        const res = await fetchProjects(id);
         setProjects(res.data);
       } catch (err) {
         setError(err.message);
@@ -30,7 +30,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="sidebar">
+    <div className="row-div">
       <div>
         <h2>Projects</h2>
         <ul>
