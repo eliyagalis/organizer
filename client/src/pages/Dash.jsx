@@ -9,6 +9,12 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 const Dash = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const {user} = useUser();
+  
+  const handleProjectSelect = (projectId) => {
+    setSelectedProject(projectId);
+    console.log(projectId);
+  }
+  
   return (
     <div>
       <div className="dashboard">
@@ -18,7 +24,7 @@ const Dash = () => {
 
             <h3>organizer</h3>
             <FontAwesomeIcon icon={faUser}/> {user.username}
-            <Sidebar />
+            <Sidebar sendProjectId={()=> handleProjectSelect} />
           </div>
           <div className="tasks-container">
             {selectedProject ? (
