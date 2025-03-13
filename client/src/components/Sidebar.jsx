@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({id}) => {
-  const [projects, setProjects] = useState([{name: 'Project 1'}, {name: 'Project 2'}]);
+  const [projects, setProjects] = useState([{_id: 1, name: 'Project 1'}, {_id: 2,name: 'Project 2'}]);
   const [isLoading, setIsLoading] = useState(true);
   const [newProject, setNewProject] = useState({name: 'New Project'});
   const [editing, setEditing] = useState(false);
@@ -13,7 +13,7 @@ const Sidebar = ({id}) => {
     const loadProjects = async () => {
       try {
         const res = await fetchProjects(id);
-        setProjects(res.data);
+        // setProjects(res.data);
       } catch (err) {
         console.log(err.message);
       } finally {
@@ -27,7 +27,6 @@ const Sidebar = ({id}) => {
   if (isLoading) {
     return <p>Loading projects...</p>;
   }
-
   
   const handleAddProject = (e) => {
     e.preventDefault();
@@ -45,18 +44,19 @@ const Sidebar = ({id}) => {
             <FontAwesomeIcon icon={faPlus} />
           </button>
         </div>
-        <ul className='projects-list'>
-          {projects.length === 0 ? (
+        <div className='projects-list'>
+          {
+            projects.length === 0 ? (
             <p>Click <FontAwesomeIcon icon={faPlus} /> to add a new project</p>
           ) : (
             projects.map((project, index) => (
               (editing?(
               <input key={index} onChange={(e)=>setNewProject({...newProject, name: e.target.value})} value={newProject.name}/>
             ):(
-            <li key={project._id}>{project.name}</li>))
+            <p key={project._id}>{project.name}</p>))
             ))
           )}
-        </ul>
+        </div>
       </div>
     </div>
   );

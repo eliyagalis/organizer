@@ -4,7 +4,6 @@ import { useUser } from "../context/userContext";
 import TasksList from "../features/tasks/TaskList";
 import "../styles/DashboardStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFaceAngry } from "@fortawesome/free-solid-svg-icons";
 
 const Dash = () => {
   const [selectedProject, setSelectedProject] = useState("");
