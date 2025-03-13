@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({id}) => {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState([{name: 'Project 1'}, {name: 'Project 2'}]);
   const [isLoading, setIsLoading] = useState(true);
   const [newProject, setNewProject] = useState({name: 'New Project'});
   const [editing, setEditing] = useState(false);
