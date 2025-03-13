@@ -4,6 +4,7 @@ import { useUser } from "../context/userContext";
 import TasksList from "../features/tasks/TaskList";
 import "../styles/DashboardStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Dash = () => {
   const [selectedProject, setSelectedProject] = useState("");
@@ -16,8 +17,8 @@ const Dash = () => {
           <div className="sidebar">
 
             <h3>organizer</h3>
-            <p>Welcome, {user.username}</p>
-            <Sidebar id={user._id} />
+            <FontAwesomeIcon icon={faUser}/> {user.username}
+            <Sidebar />
           </div>
           <div className="tasks-container">
             {selectedProject ? (
