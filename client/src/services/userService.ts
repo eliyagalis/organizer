@@ -31,11 +31,15 @@ export const logout = async () => {
     }
 };
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (req:Request, res:Response) => {
     try {
-        const { data } = await axios.get("/users/auth");
-        return data;
+      const res = await axios("/api/auth", {
+        withCredentials: true,
+      });
+      if (res.status!== 200) return null;
+      return await res;
     } catch (error) {
-        return null;
+      console.error("Error fetching user session:", error.message);
+      return null;
     }
-};
+  };

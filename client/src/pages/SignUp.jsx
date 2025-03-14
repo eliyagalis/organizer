@@ -18,7 +18,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       await signup(email, username, password);
-      navigate("/dash");
+      navigate("/dashboard");
     } catch (err) {
       console.log(err.message);
     }

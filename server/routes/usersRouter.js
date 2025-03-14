@@ -10,5 +10,6 @@ router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 router.put("/:id", verifyToken, userController.updateUser);
 router.delete("/:id", verifyToken, userController.deleteUser);
+router.get("auth", verifyToken, userController.auth);
 
 export default router;

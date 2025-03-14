@@ -16,7 +16,7 @@ const Login = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      await login(username, password) && navigate("/dash");
+      await login(username, password) && navigate("/dashboard");
       
     } catch (err) {
       console.log(err.message);

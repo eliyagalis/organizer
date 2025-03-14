@@ -8,7 +8,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Dash = () => {
   const [selectedProject, setSelectedProject] = useState("");
-  const {user} = useUser();
+  const { user } = useUser();
   
   const handleProjectSelect = (projectId) => {
     setSelectedProject(projectId);

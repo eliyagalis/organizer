@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { login, signup, logout } from "../services/userService";
+import { login, signup, logout, getCurrentUser } from "../services/userService";
 
 const UserContext = createContext(null);
 
@@ -10,6 +10,25 @@ export const UserProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const userFromCookie = await getCurrentUser();
+        if (userFromCookie) {
+          setUser(userFromCookie);
+          localStorage.setItem("user", JSON.stringify(userFromCookie));
+        } else {
+          setUser(null);
+          localStorage.removeItem("user");
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error.message);
+      }
+    };
+
+    checkUser();
+  }, []);
+
+  /*useEffect(() => {
     // getCurrentUser().then((user) => {
       if (user) {
         setUser(user);
@@ -19,7 +38,7 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem("user");
       }
     // });
-  }, []);
+  }, []);*/
 
   const handleLogin = async (username, password) => {
     try {
