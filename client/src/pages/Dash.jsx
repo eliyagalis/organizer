@@ -10,9 +10,8 @@ const Dash = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const { user } = useUser();
   
-  const handleProjectSelect = (projectId) => {
-    setSelectedProject(projectId);
-    console.log(projectId);
+  const handleProjectSelect = (project) => {
+    setSelectedProject(project);
   }
   
   return (
@@ -24,11 +23,11 @@ const Dash = () => {
 
             <h3>organizer</h3>
             <FontAwesomeIcon icon={faUser}/> {user.username}
-            <Sidebar sendProjectId={()=> handleProjectSelect} />
+            <Sidebar sendProjectId={(projectId)=> handleProjectSelect(projectId)} />
           </div>
           <div className="tasks-container">
             {selectedProject ? (
-              <TasksList project={{ _id: selectedProject }} />
+              <TasksList project={selectedProject} />
             ) : (
               <p>Select a project to view tasks</p>
             )}

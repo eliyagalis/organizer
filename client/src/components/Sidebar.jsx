@@ -72,6 +72,10 @@ const Sidebar = ({ sendProjectId }) => {
   };
 */
 
+  const handleProjectSend = (project) => {
+    sendProjectId(project);
+  }
+
   return (
     <div>
       <div className="inline">
@@ -107,10 +111,7 @@ const Sidebar = ({ sendProjectId }) => {
               <ProjectCard
                 key={project._id}
                 project={project}
-                onClick={()=>{
-                  console.log(project._id);
-                  sendProjectId(project._id)}}
-                // handleDeleteProject={handleDeleteProject}
+                onClick={()=> handleProjectSend(project)}
               />
             ))
           )}

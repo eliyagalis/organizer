@@ -4,21 +4,16 @@ import { login, signup, logout, getCurrentUser } from "../services/userService";
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const userFromCookie = await getCurrentUser();
-        if (userFromCookie) {
-          setUser(userFromCookie);
-          localStorage.setItem("user", JSON.stringify(userFromCookie));
+        const userData = await getCurrentUser();
+        if (userData) {
+          setUser(userData);
         } else {
           setUser(null);
-          localStorage.removeItem("user");
         }
       } catch (error) {
         console.error("Error fetching user:", error.message);
@@ -28,23 +23,10 @@ export const UserProvider = ({ children }) => {
     checkUser();
   }, []);
 
-  /*useEffect(() => {
-    // getCurrentUser().then((user) => {
-      if (user) {
-        setUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
-      } else {
-        setUser(null);
-        localStorage.removeItem("user");
-      }
-    // });
-  }, []);*/
-
   const handleLogin = async (username, password) => {
     try {
       const data = await login(username, password);
       setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
       return true;
     } catch (error) {
       console.error(error.message);
@@ -55,9 +37,7 @@ export const UserProvider = ({ children }) => {
   const handleSignup = async (email, username, password) => {
     try {
       const data = await signup(email, username, password);
-      console.log(data);
       setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
       return true;
     } catch (error) {
       console.error(error.message);
@@ -68,7 +48,6 @@ export const UserProvider = ({ children }) => {
   const handleLogout = async () => {
     await logout();
     setUser(null);
-    localStorage.removeItem("user");
   };
 
   return (

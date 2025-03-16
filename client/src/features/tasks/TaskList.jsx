@@ -3,7 +3,7 @@ import TaskCardComponent from '../../components/TaskCardComponent';
 import { fetchTasks } from '../../services/taskService';
 
 
-const TasksList = ({ project }) => {
+const TasksList = ( {project} ) => {
   const [ProjectName, setProjectName] = useState('');
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,6 +12,7 @@ const TasksList = ({ project }) => {
   useEffect(() => {
     const loadTasks = async () => {
       try {
+        setProjectName(project.name);
         const res = await fetchTasks(project._id);
         setTasks(res.data);
       } catch (err) {
@@ -36,6 +37,7 @@ const TasksList = ({ project }) => {
     <div>
       <h2>{}</h2>
       <div className='tasks'>
+        <div className='headline1'>Project: {project.name}</div>
         {tasks.length === 0 ? (
           <p>No tasks available</p>
         ) : (

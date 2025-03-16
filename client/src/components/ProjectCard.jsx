@@ -1,10 +1,11 @@
 import { faTasks, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { on } from "events";
 import React from "react";
 
-const ProjectCard = ({ project, /* handleDeleteProject */}) => {
+const ProjectCard = ({ project, onClick}) => {
   return (
-    <div className="project-card">
+    <div className="project-card" onClick={onClick}>
         <FontAwesomeIcon icon={faTasks} /> {project.name}
         {/* <button
           className="project-btn btn"
