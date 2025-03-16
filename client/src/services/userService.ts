@@ -33,7 +33,7 @@ export const logout = async () => {
 
 export const getCurrentUser = async (req:Request, res:Response) => {
     try {
-      const res = await axios("/api/auth", {
+      const res = await axios("/users/auth", {
         withCredentials: true,
       });
       if (res.status!== 200) return null;

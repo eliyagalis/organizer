@@ -60,6 +60,11 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+export const logout = (req, res) => {
+  res.clearCookie("jwt");
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
 export const auth = async (req, res) => {
   try {
     const user = await userService.getUserById(req.userId);

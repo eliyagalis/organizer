@@ -107,7 +107,9 @@ const Sidebar = ({ sendProjectId }) => {
               <ProjectCard
                 key={project._id}
                 project={project}
-                onClick={sendProjectId(project._id)}
+                onClick={()=>{
+                  console.log(project._id);
+                  sendProjectId(project._id)}}
                 // handleDeleteProject={handleDeleteProject}
               />
             ))

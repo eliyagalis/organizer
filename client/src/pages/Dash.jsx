@@ -34,7 +34,7 @@ const Dash = () => {
             )}
           </div>
         </div>):
-        (<div>
+        (<div style={{textAlign: "center"}}>
             <h3>Not logged in</h3>
             <p>Please log in to view this page</p>
             <FontAwesomeIcon icon="user" />
