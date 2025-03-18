@@ -5,6 +5,7 @@ const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -17,6 +18,9 @@ export const UserProvider = ({ children }) => {
         }
       } catch (error) {
         console.error("Error fetching user:", error.message);
+      }
+      finally {
+        // setIsLoading(false);
       }
     };
 

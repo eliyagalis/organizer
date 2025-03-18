@@ -12,8 +12,8 @@
 .register-form {
     margin-top: 1rem;
     background-color: #fff;
-    padding: 4rem 5rem;
-    border-radius: 3rem;
+    padding: 3rem 5rem;
+    border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     height: fit-content;
     text-align: center;
@@ -39,11 +39,6 @@
     box-sizing: border-box;
 }
 
-.input-icon {
-    margin-right: 0.5rem;
-    color: #888;
-}
-
 .submit {
     width: 100%;
     padding: 0.5rem;
@@ -53,18 +48,46 @@
     box-sizing: border-box;
 }
 
-.btn {
-    cursor: pointer;
-    box-sizing: border-box;
+.blue {
+    background-color: hsla(206,96%,80%, 1);
+    color: #fff;
     width: 100%;
 }
 
-.btn:hover {
-    background-color: #0056b3;
+.blue:hover {
+    background-color: hsla(206,96%,70%, 1);
 }
 
+.green {
+    background-color:#ccc;
+
+    width: 100%;
+}
+
+.green:hover {
+    background-color: rgb(13, 184, 13);
+}
+
+.green, .blue {
+    cursor: pointer;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    font-size: 1rem;
+    border-radius: 0.4rem;
+    transition: all 0.3s;
+    border: none;
+}
 
 .invalid {
     background-color: hsl(0, 100%, 76%);
     border: 1px solid hsl(0, 100%, 68%);
+}
+
+.divider {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
 }

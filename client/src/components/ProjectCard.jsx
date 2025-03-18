@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { on } from "events";
 import React from "react";
 
-const ProjectCard = ({ project, onClick}) => {
+const ProjectCard = ({ project, onClick, className}) => {
   return (
-    <div className="project-card" onClick={onClick}>
+    <div className={`project-card ${className}`} onClick={onClick}>
         <FontAwesomeIcon icon={faTasks} /> {project.name}
         {/* <button
           className="project-btn btn"

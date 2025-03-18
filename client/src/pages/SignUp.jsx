@@ -3,7 +3,6 @@ import "../styles/LoginStyle.css";
 import { Link, useNavigate } from "react-router";
 import { useUser } from "../context/userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const SignUp = () => {
   const { signup } = useUser();
@@ -26,10 +25,10 @@ const SignUp = () => {
 
   return (
     <div className="register-page">
-      <form onSubmit={handleSignup} className="register-form">
+      <div className="register-form">
+        <form onSubmit={handleSignup}>
         <div className="headline1">Sign Up</div>
         <div>
-          <FontAwesomeIcon icon={faUser} className="input-icon" />
           <input
             className="register-input"
             id="username"
@@ -39,7 +38,6 @@ const SignUp = () => {
           />
         </div>
         <div>
-          <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
           <input
             className="register-input"
             id="email"
@@ -49,7 +47,6 @@ const SignUp = () => {
           />
         </div>
         <div>
-          <FontAwesomeIcon icon={faLock} className="input-icon" />
           <input
             className="register-input"
             type="password"
@@ -60,13 +57,17 @@ const SignUp = () => {
           />
         </div>
         <div>
-          <button type="submit" className="submit btn">
+          <button type="submit" className="blue">
             Sign Up
           </button>
+          <div className="divider"/>
+          <p>Have an account?</p>
+          <button type="button" className="green" onClick={() => navigate("/login")}>
+            Log In
+          </button>
         </div>
-        Already have an account?{" "}
-        <Link to="/login">Log In</Link>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

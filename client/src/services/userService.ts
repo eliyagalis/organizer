@@ -33,12 +33,10 @@ export const logout = async () => {
 
 export const getCurrentUser = async (req: Request, res: Response) => {
     try {
-        
         const res = await axios("/users/auth");
         if (res.status !== 200) return null;
         return res.data;
     } catch (error) {
-        console.error("Error fetching user session:", error.message);
         return null;
     }
 };

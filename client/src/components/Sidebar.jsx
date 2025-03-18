@@ -1,28 +1,29 @@
 import { useEffect, useState } from "react";
 import { createProject, deleteProject, fetchProjects } from "../services/projectService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faSave, faX } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCheckCircle, faPlus, faSave, faX, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import ProjectCard from "./ProjectCard";
 import { useUser } from "../context/userContext";
 import Toast from "./Toast";
+import CustomSpinner from "./CustomSpinner";
 
-const Sidebar = ({ sendProjectId }) => {
+const Sidebar = ({ projects, setProjects, sendProject }) => {
   const { user } = useUser();
-  const [projects, setProjects] = useState([]);
+
+  const [myProjects, setMyProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [newProject, setNewProject] = useState({ name: "" });
   const [editing, setEditing] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-
-  const showToast = (message) => {
-    setToastMessage(message);
-  };
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        const res = await fetchProjects(user._id);
-        setProjects(res.data);
+        
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);      
       } catch (err) {
         setToastMessage(err.message);
       } finally {
@@ -35,7 +36,6 @@ const Sidebar = ({ sendProjectId }) => {
   const handleAddProject = (e) => {
     e.preventDefault();
     setEditing(true);
-    setNewProject({ name: "" });
   };
 
   const handleSaveNewProject = async (e) => {
@@ -54,10 +54,8 @@ const Sidebar = ({ sendProjectId }) => {
       setNewProject({ name: "" });
     }
   };
-
   
-  /*
-  const handleDeleteProject = async (projectId) => {
+  /* const handleDeleteProject = async (projectId) => {
     try {
       const res = await deleteProject(projectId);
       setEditing(false);
@@ -69,11 +67,10 @@ const Sidebar = ({ sendProjectId }) => {
     } finally {
       setNewProject({ name: "" });
     }
-  };
-*/
+  }; */
 
   const handleProjectSend = (project) => {
-    sendProjectId(project);
+    setSelectedProjectId(project._id);
   }
 
   return (
@@ -86,10 +83,10 @@ const Sidebar = ({ sendProjectId }) => {
               className="project-btn btn"
               onClick={() => setEditing(false)}
             >
-              <FontAwesomeIcon icon={faX} />
+              <FontAwesomeIcon icon={faXmarkCircle} />
             </button>
             <button className="project-btn btn" onClick={handleSaveNewProject}>
-              <FontAwesomeIcon icon={faSave} />
+              <FontAwesomeIcon icon={faCheckCircle} />
             </button>
           </div>
         ) : (
@@ -99,7 +96,9 @@ const Sidebar = ({ sendProjectId }) => {
         )}
       </div>
       {isLoading ? (
-        <p>Loading...</p>
+        <div className="projects-list">
+          <CustomSpinner />
+        </div>
       ) : (
         <div className="projects-list">
           {projects.length === 0 && !editing ? (
@@ -112,6 +111,7 @@ const Sidebar = ({ sendProjectId }) => {
                 key={project._id}
                 project={project}
                 onClick={()=> handleProjectSend(project)}
+                className={selectedProjectId === project._id ? "selected" : ""}
               />
             ))
           )}
